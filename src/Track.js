@@ -1,5 +1,6 @@
 import xs from 'xstream';
-import { input } from '@cycle/dom';
+import { div, input } from '@cycle/dom';
+import isolate from '@cycle/isolate';
 
 function intent(domSource) {
     return {
@@ -15,13 +16,19 @@ function model(actions) {
 }
 
 function view(state$) {
-    return state$.map(({ frequency }) => input('.frequency', { attrs: { value: frequency } }));
+    return state$.map(({ frequency }) => div([
+        input('.frequency', { attrs: { value: frequency } })
+    ]));
 }
 
 function Track(sources) {
+    const action$ = intent(sources.DOM);
+    const state$ = model(action$);
+    const view$ = view(state$);
+
     return {
-        DOM: view(model(intent(sources.DOM)))
+        DOM: view$
     };
 }
 
-export default Track;
+export default sources => isolate(Track)(sources);
