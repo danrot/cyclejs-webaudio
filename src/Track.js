@@ -21,13 +21,23 @@ function view(state$) {
     ]));
 }
 
+function audio(state$) {
+    return state$.map(({ frequency }) => ({
+        oscillators: [{
+            frequency
+        }]
+    }));
+}
+
 function Track(sources) {
     const action$ = intent(sources.DOM);
     const state$ = model(action$);
     const view$ = view(state$);
+    const audio$ = audio(state$);
 
     return {
-        DOM: view$
+        DOM: view$,
+        WebAudio: audio$
     };
 }
 

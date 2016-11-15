@@ -13,10 +13,9 @@ function model(actions, trackWrapper) {
 }
 
 function view(state$) {
-    const tracks$ = state$
-        .map(tracks => {
+    const tracks$ = state$.map(tracks => {
             const tracksDom = tracks.map(track => track.DOM.map(dom => dom));
-            return xs.combine(...tracksDom)
+            return xs.combine(...tracksDom);
         })
         .flatten();
 
@@ -26,6 +25,20 @@ function view(state$) {
         .map(([tracks, addTrackButton]) => div(
             tracks.concat([addTrackButton])
         ));
+}
+
+function audio(state$) {
+    const tracks$ = state$.map(tracks => {
+        const tracksWebAudio = tracks.map(track => track.WebAudio.map(webAudio => webAudio));
+        return xs.combine(...tracksWebAudio);
+    })
+    .flatten();
+
+    return tracks$.map(tracks => tracks.reduce((webAudios, webAudio) => {
+        return {
+            oscillators: webAudios.oscillators.concat(webAudio.oscillators)
+        };
+    }, { oscillators: [] }));
 }
 
 function makeTrackWrapper(domSource) {
@@ -40,9 +53,11 @@ function App(sources) {
     const action$ = intent(sources.DOM);
     const state$ = model(action$, trackWrapper);
     const view$ = view(state$);
+    const audio$ = audio(state$);
 
     return {
-        DOM: view$
+        DOM: view$,
+        WebAudio: audio$
     };
 }
 
