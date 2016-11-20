@@ -1,5 +1,5 @@
 import xs from 'xstream';
-import { div, button }  from '@cycle/dom';
+import { div, button } from '@cycle/dom';
 import Track from './Track';
 
 function intent(domSource) {

@@ -1,6 +1,5 @@
-import xs from 'xstream';
-import { run }  from '@cycle/xstream-run';
-import { makeDOMDriver, div } from '@cycle/dom';
+import { run } from '@cycle/xstream-run';
+import { makeDOMDriver } from '@cycle/dom';
 import WebAudioDriver from './WebAudioDriver';
 import App from './App';
 

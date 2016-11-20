@@ -1,5 +1,4 @@
-import xs from 'xstream';
-import { div, input } from '@cycle/dom';
+import { div, input } from '@cycle/dom';
 import isolate from '@cycle/isolate';
 
 function intent(domSource) {
@@ -22,7 +21,7 @@ function view(state$) {
 }
 
 function audio(state$) {
-    return state$.map(({ frequency }) => ({
+    return state$.map(({ frequency }) => ({
         oscillators: [{
             frequency
         }]
